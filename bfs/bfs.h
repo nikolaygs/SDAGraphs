@@ -5,20 +5,23 @@
 using namespace std;
 
 class BFSTraversal {
-    bool visited[];
+    Graph g;
+    bool *visited;
 public:
-    void bfs(Graph g, int v) {
-        std::queue<int> queue; // 1. пазим непосетените върхове в опащка
-        queue.push(v); // 2. слагаме началния връх в опашкатасс и го маркираме като посетен
-        visited[v] = true;
+    BFSTraversal(Graph g) : g(g), visited(new bool[g.vertices()]) {}
 
-        while (!queue.empty()) {
-            int current = queue.front(); // 3. взимаме първия връх от опашката
-            queue.pop();
-            for (int w : g.adj(current)) { // 4. всички непосетени негови съседи слагаме в опащката
+    void bfs(int v) {
+        std::queue<int> traversalOrder; // 1. пазим непосетените върхове в опащка
+        traversalOrder.push(v); // 2. слагаме началния връх в опашкатасс и го маркираме като посетен
+        visited[v] = true;
+        while (!traversalOrder.empty()) {
+            v = traversalOrder.front(); // 3. взимаме първия връх от опашката
+            traversalOrder.pop();
+            cout << v << " ";
+            for (int w : g.adj(v)) { // 4. всички непосетени негови съседи слагаме в опащката
                 if (!visited[w]) {
                     visited[w] = true;
-                    queue.push(w);
+                    traversalOrder.push(w);
                 }
             }
         }

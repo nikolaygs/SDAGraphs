@@ -5,38 +5,45 @@
 using namespace std;
 
 class DFSRecursiveTraversal {
-    // списък с посетените върхове
-    bool visited[];
+    Graph g;
+    bool *visited; // списък с посетените върхове
 public:
-    void dfs(Graph g, int v) {
-        // 1. Задаваме начален връх V от които започваме обхождането и го маркираме като посетен.
+    DFSRecursiveTraversal(Graph g) : g(g), visited(new bool[g.vertices()]) {}
+
+    void dfs(int v) {
+        // 0. Извеждаме елемента който обработваме
+        cout << v << " ";
+        // 1. Задаваме начален връх V от който започваме обхождането и го маркираме като посетен.
         visited[v] = true;
         // 2. Взимаме всичките съседни върхове на V
         for (int w : g.adj(v)) {
             if (!visited[w]) {
                 // 3. За всеки непосетен връх съсед на V повтаряме стъпките.
-                dfs(g, w);
+                dfs(w);
             }
         }
     }
 };
 
 class DFSIterativeTraversal {
-    bool visited[];
+    Graph g;
+    bool *visited; // списък с посетените върхове
 public:
-    void dfs(Graph g, int v) {
+    DFSIterativeTraversal(Graph g) : g(g), visited(new bool[g.vertices()]) {}
+
+    void dfs(int v) {
         std::stack<int> recStack; // пазим непосетените върхове в стек
         recStack.push(v);
-        visited[v] = true;
-
         while (!recStack.empty()) {
-            int current = recStack.top();
+            v = recStack.top();
             recStack.pop();
-
-            for (int w : g.adj(current)) {
-                if (!visited[w]) {
-                    recStack.push(w); // ако намерим непосетен връх го слагаме в стека.
-                    visited[w] = true;
+            if (!visited[v]) {
+                cout << v << " ";
+                visited[v] = true;
+                for (int w : g.adj(v)) {
+                    if (!visited[w]) {
+                        recStack.push(w); // ако намерим непосетен връх го слагаме в стека.
+                    }
                 }
             }
         }

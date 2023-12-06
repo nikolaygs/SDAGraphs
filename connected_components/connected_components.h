@@ -18,7 +18,7 @@ class ConnectedComponents {
     }
 
     void connectedComponents() {
-        int ccNum; // брой на свързаните компоненти
+        int ccNum = 0; // брой на свързаните компоненти
         // итерираме през всички непосетени върхове
         for (int i = 0; i < g.vertices(); i++) {
             if (!visited[i]) {
